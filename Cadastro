@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tela de Cadastro - Zelo</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <h1>Zelo</h1>
+    <div class="tela-login">
+        <h1 class="login-titulo">Cadastro</h1>
+
+        <div id="mensagem" class="mensagem oculto"></div>
+
+        <h3>Nome:</h3>
+        <input type="text" id="nome" placeholder="Nome">
+
+        <h3>Email:</h3>
+        <input type="email" id="email" placeholder="Email">
+
+        <h3>Data de Nascimento:</h3>
+        <input type="date" id="data_nascimento">
+
+        <h3>Senha:</h3>
+        <input type="password" id="senha" placeholder="Mínimo 8 caracteres">
+
+        <button id="btn-cadastro">Criar Conta</button>
+        <h5>OU</h5>
+        <p><a href="login.html">Já tenho conta!</a></p>
+    </div>
+
+    <script src="../js/cadastro.js"></script>
+</body>
+</html>

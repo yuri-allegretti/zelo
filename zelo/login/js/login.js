@@ -1,0 +1,49 @@
+const btn    = document.getElementById('btn-login');
+const msgBox = document.getElementById('mensagem');
+
+function mostrarMensagem(texto, tipo) {
+    msgBox.textContent = texto;
+    msgBox.className   = 'mensagem ' + tipo; // erro ou sucesso-msg
+}
+
+btn.addEventListener('click', async () => {
+    const nome  = document.getElementById('nome').value.trim();
+    const senha = document.getElementById('senha').value;
+
+    if (!nome || !senha) {
+        mostrarMensagem('Preencha todos os campos.', 'erro');
+        return;
+    }
+
+    btn.disabled    = true;
+    btn.textContent = 'Entrando...';
+
+    try {
+        const response = await fetch('../php/login.php', {
+            method:  'POST',
+            headers: { 'Content-Type': 'application/json' },
+            credentials: 'include',
+            body:    JSON.stringify({ nome, senha })
+        });
+
+        const dados = await response.json();
+
+        if (dados.sucesso) {
+            mostrarMensagem(dados.mensagem, 'sucesso-msg');
+            // Salva o nome 
+            localStorage.setItem('cadastro', JSON.stringify(dados.usuario));
+            setTimeout(() => {
+                window.location.href = '../../php/index.php';
+            }, 1000);
+        } else {
+            mostrarMensagem(dados.mensagem, 'erro');
+            btn.disabled    = false;
+            btn.textContent = 'Entrar';
+        }
+    } catch (err) {
+        mostrarMensagem('Erro de conexão. Tente novamente.', 'erro');
+        btn.disabled    = false;
+        btn.textContent = 'Entrar';
+    }
+});
+

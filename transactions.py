@@ -2,8 +2,7 @@ from dotenv import load_dotenv
 import os
 import sys
 import mysql.connector
-from pluggy.api_connect import get_user_transactions, get_api_key
-
+from pluggy_api.user_data import get_user_transactions, get_api_key
 
 #config ia
 load_dotenv()
@@ -76,7 +75,7 @@ def main():
     cursor.close()
     db.close()
 
-    print(f"{novas} novas transacoes inseridas")
+    print(f"{novas} novas transacoes inseridas em {user_id}")
 
 if __name__ == "__main__":
     main()

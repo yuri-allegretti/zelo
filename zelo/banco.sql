@@ -9,8 +9,9 @@ CREATE TABLE cadastro (
   senha      VARCHAR(255)                       NOT NULL,
   data_nasc  DATE                               NOT NULL,
   nivel      ENUM('free', 'premium', 'suporte') NOT NULL DEFAULT 'free',
-  item_id VARCHAR(255),
+  item_id    VARCHAR(255),
   account_id VARCHAR(255),
+  saldo      DECIMAL(15,2)                      DEFAULT NULL,
   PRIMARY KEY (id)
 );
 
@@ -35,5 +36,3 @@ CREATE TABLE transactions (
 
     FOREIGN KEY (user_id) REFERENCES cadastro(id)
 );
-
-DROP USER IF EXISTS 'zelo_user'@'localhost

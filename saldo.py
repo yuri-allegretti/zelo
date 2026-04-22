@@ -1,6 +1,7 @@
 import sys
 import mysql.connector
-from pluggy.api_connect import get_user_accounts, get_api_key
+from pluggy_api.user_data import get_user_accounts
+from pluggy_api.api_key import get_api_key
 
 def get_item_id_from_db(user_id):
     """Busca o item_id do usuário no banco de dados"""
@@ -36,7 +37,7 @@ def main():
     item_id = get_item_id_from_db(user_id)
     
     if not item_id:
-        print("Erro: item_id não encontrado para este usuário")
+        print("Item ID não encontrado para o usuário.")
         return
 
     api_key = get_api_key()

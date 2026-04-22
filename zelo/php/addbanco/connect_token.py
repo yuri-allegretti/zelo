@@ -6,6 +6,7 @@ import os
 from flask_cors import CORS
 app = Flask(__name__)
 CORS(app)
+from pluggy_api.api_key import get_api_key
 
 load_dotenv()
 
@@ -24,24 +25,11 @@ def conectar_db():
         database="zelo"
     )
 
-#pegar api key
-def get_api_key():
-    url = f"{BASE_URL}/auth"
-    payload = {
-            "clientId": os.getenv("PLUGGY_CLIENT_ID"),
-            "clientSecret": os.getenv("PLUGGY_CLIENT_SECRET")
-        }
-    response = requests.post(url, json=payload)
-    if response.status_code == 200:
-        return response.json().get("apiKey")
-    else:
-        print("Erro na autenticação:", response.status_code)
-        return None
-
 #gerar connect token
 @app.route("/connect_token")
 def connect_token():
     api_key = get_api_key()
+    user_id = request.args.get("userId")
 
     if not api_key:
         return {"error": "Falha ao autenticar na Pluggy"}
@@ -52,7 +40,7 @@ def connect_token():
             "X-API-KEY": api_key
         },
         json={
-            "clientUserId": "user-123"
+            "clientUserId": user_id
         }
     )
     return jsonify(response.json())
@@ -97,13 +85,14 @@ def accounts(item_id):
 
     if "results" in data and len(data["results"]) > 0:
         account_id = data["results"][0]["id"]
+        balance = data["results"][0].get("balance")
 
         conn = conectar_db()
         cursor = conn.cursor()
 
         cursor.execute(
-            "UPDATE cadastro SET account_id=%s WHERE item_id=%s",
-            (account_id, item_id)
+            "UPDATE cadastro SET account_id=%s, saldo=%s WHERE item_id=%s",
+            (account_id, balance, item_id)
         )
 
         conn.commit()

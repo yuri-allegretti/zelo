@@ -46,7 +46,7 @@ function fecharPluggy(connect) {
 }
 
 async function abrirPluggy() {
-    const response = await fetch("http://localhost:5000/connect_token");
+    const response = await fetch(`http://localhost:5000/connect_token?userId=${encodeURIComponent(USER_ID)}`);
     const data = await response.json();
 
     let connect = null;

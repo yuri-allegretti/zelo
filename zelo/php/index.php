@@ -52,118 +52,99 @@ session_start();
     <div class="container">
         <div class= "row">
             <div class="col mt-5">
-                <?php
+              <?php
+                //verificar se usuario esta logado
                 if (!isset($_SESSION['user_id']) && @$_REQUEST['page'] !== 'login') {
-    header('Location: ../login/html/index.html');
-    exit;
-}
-    include("conexao.php");
-    switch(@$_REQUEST["page"]){
-        case"novo":
-            include("novo_user.php");
-        break;
-        case"listar":
-            include("listar_user.php");
-        break;
-        case"salvar":
-            include("salvar_user.php");
-        break;
-        case"editar":
-            include("editar_user.php");
-        break;
-        case "addbanco":
-            include("addbanco/addbanco.php");
-        break;
-        default:
+                  header('Location: ../login/html/index.html');
+                  exit;
+                }
 
-          $user_id = (int) $_SESSION['user_id'];
+                //conexao com banco de dados
+                include("conexao.php");
 
 
-          // ========================
-          // 🔗 PEGAR DADOS DO USUARIO
-          // ========================
-          $stmt = $conn->prepare("SELECT item_id FROM cadastro WHERE id = ?");
-          $stmt->bind_param("i", $user_id);
-          $stmt->execute();
-          $result_user = $stmt->get_result();
-          $user = $result_user ? $result_user->fetch_assoc() : null;
-          $stmt->close();
+                switch(@$_REQUEST["page"]){
+                  case"novo":
+                    include("novo_user.php");
+                    break;
+                  case"listar":
+                    include("listar_user.php");
+                    break;
+                  case"salvar":
+                    include("salvar_user.php");
+                    break;
+                  case"editar":
+                    include("editar_user.php");
+                    break;
+                  case "addbanco":
+                    include("addbanco/addbanco.php");
+                    break;
+                  default://pagina inicial
+                    $user_id = (int) $_SESSION['user_id']; //pegar id do usuario logado
 
-          $item_id = $user['item_id'] ?? null;
+                    // PEGAR DADOS DO USUARIO
+                    $stmt = $conn->prepare("SELECT item_id, saldo FROM cadastro WHERE id = ?");
+                    $stmt->bind_param("i", $user_id);
+                    $stmt->execute();
+                    $result_user = $stmt->get_result();
+                    $user = $result_user ? $result_user->fetch_assoc() : null;
+                    $stmt->close();
 
-          // ========================
-          // 💰 SALDO
-          // ========================
-          $saldo = "Não disponível";
+                    $item_id = $user['item_id'] ?? null;
+                    $saldoBanco = $user['saldo'] ?? null; //salva saldo
 
-          if ($user_id) {
-            $python = trim((string) shell_exec("where python 2>NUL"));
-            $pythonCmd = "python";
+                    //SALDO
+                    //verificar e formatar saldo
+                    if ($saldoBanco !== null && $saldoBanco !== '') {
+                      $saldo = number_format((float) $saldoBanco, 2, ',', '.');
+                      echo "<h2>Saldo: R$ $saldo</h2>";//exibe saldo
+                    }
+                    else {
+                      $saldo = "Não disponível";
+                      echo "<h2>Saldo: $saldo</h2>";//mensagem caso saldo nao esteja disponivel
+                    }
 
-            if (empty($python)) {
-              $pyLauncher = trim((string) shell_exec("where py 2>NUL"));
-              if (!empty($pyLauncher)) {
-                $pythonCmd = "py";
-              }
-            }
+                    //EXTRATO
+                    //pega transacoes do usuario
+                    $stmt = $conn->prepare("
+                      SELECT description, amount, categoria, date, user_id 
+                      FROM transactions 
+                      WHERE user_id = ? 
+                      ORDER BY date DESC
+                      ");
 
-            $script = realpath(__DIR__ . '/../../saldo.py');
-            if ($script) {
-              $cmd = $pythonCmd . " " . escapeshellarg($script) . " " . escapeshellarg((string) $user_id) . " 2>&1";
-              $saida = shell_exec($cmd);
-              $saida = trim((string) $saida);
-              $saldo = $saida !== '' ? $saida : "Não disponível";
-            }
-          }
+                    if (!$stmt) {
+                        die("Erro prepare: " . $conn->error);
+                    }
 
-          echo "<h2>Saldo: R$ $saldo</h2>";
+                    $stmt->bind_param("i", $user_id);
 
-          // ========================
-          // 📄 EXTRATO
-          // ========================
-            $stmt = $conn->prepare("
-    SELECT description, amount, categoria, date, user_id 
-    FROM transactions 
-    WHERE user_id = ? 
-    ORDER BY date DESC
-");
+                    if (!$stmt->execute()) {
+                        die("Erro execute: " . $stmt->error);
+                    }
 
-if (!$stmt) {
-    die("Erro prepare: " . $conn->error);
-}
+                    $result_extrato = $stmt->get_result();
 
-$stmt->bind_param("i", $user_id);
+                    echo "<h3 class='mt-4'>Extrato</h3>";//exibe titulo do extrato
+                    
+                    //estiliza e exibe transacoes  
+                    while ($row = $result_extrato->fetch_assoc()) {
+                        $cor = $row['amount'] < 0 ? "red" : "green";
+                        echo "<div style='border-bottom:1px solid #ccc; padding:10px;'>";
+                        echo "<strong>{$row['description']}</strong><br>";
+                        echo "<span style='color:$cor;'>R$ {$row['amount']}</span><br>";
+                        echo "<small>{$row['categoria']} | {$row['date']}</small>";
+                        echo "</div>";
+                    }
 
-if (!$stmt->execute()) {
-    die("Erro execute: " . $stmt->error);
-}
+                    $stmt->close();
 
-$result_extrato = $stmt->get_result();
-            $stmt->bind_param("i", $user_id);
-            $stmt->execute();
-            $result_extrato = $stmt->get_result();
-
-          echo "<h3 class='mt-4'>Extrato</h3>";
-
-          while ($row = $result_extrato->fetch_assoc()) {
-
-              $cor = $row['amount'] < 0 ? "red" : "green";
-
-              echo "<div style='border-bottom:1px solid #ccc; padding:10px;'>";
-              echo "<strong>{$row['description']}</strong><br>";
-              echo "<span style='color:$cor;'>R$ {$row['amount']}</span><br>";
-              echo "<small>{$row['categoria']} | {$row['date']}</small>";
-              echo "</div>";
-            }
-
-              $stmt->close();
-
-        break;           
-    }
- ?>                
+                    break;           
+                }
+              ?>                
             </div>
         </div>  
- </div>
+    </div>
 
 
 

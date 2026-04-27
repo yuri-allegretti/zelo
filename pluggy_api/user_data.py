@@ -2,6 +2,9 @@ import os
 import requests
 from dotenv import load_dotenv
 from zelo.php.addbanco.api_key import get_api_key
+import urllib3
+
+urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 load_dotenv()
 
@@ -19,7 +22,7 @@ def get_user_accounts(api_key, item_id):
     params = {
         "itemId": item_id
     }
-    response = requests.get(url, headers=headers, params=params)
+    response = requests.get(url, headers=headers, params=params, verify=False)
 
     if response.status_code == 200:
         return response.json() ##retorna a lista de contas
@@ -37,7 +40,7 @@ def get_user_transactions(api_key, account_id):
     # Filtramos as transações por uma conta específica
     params = {"accountId": account_id}
     
-    response = requests.get(url, headers=headers, params=params)
+    response = requests.get(url, headers=headers, params=params, verify=False)
     
     if response.status_code == 200:
         return response.json() ## Retorna a lista de transações [1, 3]

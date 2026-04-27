@@ -10,3 +10,50 @@
 7 novas transacoes inseridas em 11
 0 novas transacoes inseridas em 11
 0 novas transacoes inseridas em 11
+Traceback (most recent call last):
+  File "C:\xampp\htdocs\zelo-main\transactions.py", line 76, in <module>
+    main()
+    ~~~~^^
+  File "C:\xampp\htdocs\zelo-main\transactions.py", line 59, in main
+    db = conectar_db()
+  File "C:\xampp\htdocs\zelo-main\transactions.py", line 12, in conectar_db
+    return mysql.connector.connect(
+           ~~~~~~~~~~~~~~~~~~~~~~~^
+        host="localhost",
+        ^^^^^^^^^^^^^^^^^
+    ...<2 lines>...
+        database="zelo"
+        ^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\yuri.allegretti\AppData\Roaming\Python\Python314\site-packages\mysql\connector\pooling.py", line 294, in connect
+    return MySQLConnection(*args, **kwargs)
+  File "C:\Users\yuri.allegretti\AppData\Roaming\Python\Python314\site-packages\mysql\connector\connection.py", line 169, in __init__
+    self.connect(**kwargs)
+    ~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\yuri.allegretti\AppData\Roaming\Python\Python314\site-packages\mysql\connector\abstracts.py", line 1237, in connect
+    self._open_connection()
+    ~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\yuri.allegretti\AppData\Roaming\Python\Python314\site-packages\mysql\connector\connection.py", line 355, in _open_connection
+    self._do_auth(
+    ~~~~~~~~~~~~~^
+        self._user,
+        ^^^^^^^^^^^
+    ...<5 lines>...
+        self._conn_attrs,
+        ^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\yuri.allegretti\AppData\Roaming\Python\Python314\site-packages\mysql\connector\connection.py", line 288, in _do_auth
+    ok_pkt = self._authenticator.authenticate(
+        sock=self._socket,
+    ...<15 lines>...
+        fido_callback=self._fido_callback,
+    )
+  File "C:\Users\yuri.allegretti\AppData\Roaming\Python\Python314\site-packages\mysql\connector\authentication.py", line 378, in authenticate
+    ok_pkt = self._handle_server_response(sock, pkt)
+  File "C:\Users\yuri.allegretti\AppData\Roaming\Python\Python314\site-packages\mysql\connector\authentication.py", line 292, in _handle_server_response
+    raise get_exception(pkt)
+mysql.connector.errors.ProgrammingError: 1045 (28000): Access denied for user 'root'@'localhost' (using password: NO)
+493 novas transacoes inseridas em 1
+493 novas transacoes inseridas em 2

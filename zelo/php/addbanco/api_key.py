@@ -1,6 +1,9 @@
 import os
 import requests
 from dotenv import load_dotenv
+import urllib3
+
+urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 load_dotenv()
 
@@ -12,7 +15,7 @@ def get_api_key():
             "clientId": os.getenv("PLUGGY_CLIENT_ID"), 
             "clientSecret": os.getenv("PLUGGY_CLIENT_SECRET")
         }
-    response = requests.post(url, json=payload)
+    response = requests.post(url, json=payload, verify=False)
     if response.status_code == 200:
         return response.json().get("apiKey")
     else:

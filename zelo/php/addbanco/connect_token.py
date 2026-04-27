@@ -7,6 +7,9 @@ from flask_cors import CORS
 app = Flask(__name__)
 CORS(app)
 from api_key import get_api_key
+import urllib3
+
+urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 load_dotenv()
 
@@ -20,6 +23,7 @@ CLIENT_SECRET = os.getenv("PLUGGY_CLIENT_SECRET")
 def conectar_db():
     return mysql.connector.connect(
         host="localhost",
+        port=3307,
         user="root",
         password="",
         database="zelo"
@@ -41,7 +45,7 @@ def connect_token():
         },
         json={
             "clientUserId": user_id
-        }
+        }, verify=False
     )
     return jsonify(response.json())
 
@@ -73,12 +77,12 @@ def salvar_item():
 @app.route("/accounts/<item_id>")
 def accounts(item_id):
     api_key = get_api_key()
+    url = f"{BASE_URL}/accounts?itemId={item_id}"
 
-    response = requests.get(
-        f"https://api.pluggy.ai/accounts?itemId={item_id}",
+    response = requests.get(url,
         headers={
             "X-API-KEY": api_key
-        }
+        }, verify=False
     )
 
     data = response.json()

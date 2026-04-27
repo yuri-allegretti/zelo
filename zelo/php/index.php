@@ -102,8 +102,7 @@ session_start();
                       echo "<h2>Saldo: R$ $saldo</h2>";//exibe saldo
                     }
                     else {
-                      $saldo = "Não disponível";
-                      echo "<h2>Saldo: $saldo</h2>";//mensagem caso saldo nao esteja disponivel
+                      echo "<h2>Conecte seu banco para ter acesso aos recursos da Zelo</h2>";//mensagem caso saldo nao esteja disponivel
                     }
 
                     //EXTRATO
@@ -127,17 +126,18 @@ session_start();
 
                     $result_extrato = $stmt->get_result();
                     
-                    echo "<h3 class='mt-4'>Extrato</h3>";//exibe titulo do extrato
-                    //estiliza e exibe transacoes  
-                    while ($row = $result_extrato->fetch_assoc()) {
-                       $cor = $row['amount'] < 0 ? "red" : "green";
-                       echo "<div style='border-bottom:1px solid #ccc; padding:10px;'>";
-                       echo "<strong>{$row['description']}</strong><br>";
-                       echo "<span style='color:$cor;'>R$ {$row['amount']}</span><br>";
-                       echo "<small>{$row['categoria_editada']} | {$row['date']}</small>";
-                       echo "</div>";
+                    if ($saldoBanco !== null && $saldoBanco !== '') {
+                      echo "<h3 class='mt-4'>Extrato</h3>";//exibe titulo do extrato
+                      //estiliza e exibe transacoes  
+                      while ($row = $result_extrato->fetch_assoc()) {
+                        $cor = $row['amount'] < 0 ? "red" : "green";
+                        echo "<div style='border-bottom:1px solid #ccc; padding:10px;'>";
+                        echo "<strong>{$row['description']}</strong><br>";
+                        echo "<span style='color:$cor;'>R$ {$row['amount']}</span><br>";
+                        echo "<small>{$row['categoria_editada']} | {$row['date']}</small>";
+                        echo "</div>";
+                      }
                     }
-
                     
                     $stmt->close();
                     break;           

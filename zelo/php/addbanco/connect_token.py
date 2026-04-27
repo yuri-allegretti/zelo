@@ -6,7 +6,7 @@ import os
 from flask_cors import CORS
 app = Flask(__name__)
 CORS(app)
-from pluggy_api.api_key import get_api_key
+from api_key import get_api_key
 
 load_dotenv()
 
@@ -29,7 +29,7 @@ def conectar_db():
 @app.route("/connect_token")
 def connect_token():
     api_key = get_api_key()
-    user_id = request.args.get("userId")
+    user_id = request.args.get("userId") #pega userid da url
 
     if not api_key:
         return {"error": "Falha ao autenticar na Pluggy"}

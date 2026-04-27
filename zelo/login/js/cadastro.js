@@ -30,7 +30,7 @@ btn.addEventListener('click', async () => {
     const nome            = document.getElementById('nome').value.trim();
     const email           = document.getElementById('email').value.trim();
     const senha           = document.getElementById('senha').value;
-    const data_nasc = document.getElementById('data_nascimento').value;
+    const data_nasc       = document.getElementById('data_nascimento').value;
 
     if (!validarCampos(nome, email, senha)) return;
 

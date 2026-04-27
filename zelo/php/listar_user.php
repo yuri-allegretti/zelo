@@ -27,13 +27,14 @@
                         <button onclick=\"if(confirm('Deseja sair da conta?')){location.href='?page=salvar&acao=logout';}else{false}\"class='btn btn-danger'>Sair</button>
                     </div>
                 </div>
-            </div>";
+            </div>  
+            <a type='link   ' href='?page=addbanco' class='btn btn-warning' style='margin-top: 10px'>+ Adicionar banco</a>";
         }
     } else {
         print "<p>Nenhum usuário encontrado.</p>";
     }
 
     print "
-        <button type='button' onclick=\"location.href='/teste%20assistente/zelo/php/addbanco/addbanco.php'\" class='btn btn-warning' style='margin-top: 10px'>+ Adicionar banco!</button>
+        
     ";
 ?>

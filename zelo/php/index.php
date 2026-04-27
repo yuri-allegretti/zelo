@@ -55,7 +55,7 @@ session_start();
               <?php
                 //verificar se usuario esta logado
                 if (!isset($_SESSION['user_id']) && @$_REQUEST['page'] !== 'login') {
-                  header('Location: ../login/html/index.html');
+                  header('Location: ../login/html/login.html');
                   exit;
                 }
 
@@ -82,6 +82,7 @@ session_start();
                   default://pagina inicial
                     $user_id = (int) $_SESSION['user_id']; //pegar id do usuario logado
 
+
                     // PEGAR DADOS DO USUARIO
                     $stmt = $conn->prepare("SELECT item_id, saldo FROM cadastro WHERE id = ?");
                     $stmt->bind_param("i", $user_id);
@@ -95,6 +96,7 @@ session_start();
 
                     //SALDO
                     //verificar e formatar saldo
+
                     if ($saldoBanco !== null && $saldoBanco !== '') {
                       $saldo = number_format((float) $saldoBanco, 2, ',', '.');
                       echo "<h2>Saldo: R$ $saldo</h2>";//exibe saldo
@@ -107,10 +109,10 @@ session_start();
                     //EXTRATO
                     //pega transacoes do usuario
                     $stmt = $conn->prepare("
-                      SELECT description, amount, categoria, date, user_id 
+                      SELECT description, amount, categoria, date, user_id, categoria_editada 
                       FROM transactions 
-                      WHERE user_id = ? 
-                      ORDER BY date DESC
+                      WHERE user_id = ?
+                      ORDER BY date DESC 
                       ");
 
                     if (!$stmt) {
@@ -118,27 +120,26 @@ session_start();
                     }
 
                     $stmt->bind_param("i", $user_id);
-
+                    
                     if (!$stmt->execute()) {
                         die("Erro execute: " . $stmt->error);
                     }
 
                     $result_extrato = $stmt->get_result();
-
-                    echo "<h3 class='mt-4'>Extrato</h3>";//exibe titulo do extrato
                     
+                    echo "<h3 class='mt-4'>Extrato</h3>";//exibe titulo do extrato
                     //estiliza e exibe transacoes  
                     while ($row = $result_extrato->fetch_assoc()) {
-                        $cor = $row['amount'] < 0 ? "red" : "green";
-                        echo "<div style='border-bottom:1px solid #ccc; padding:10px;'>";
-                        echo "<strong>{$row['description']}</strong><br>";
-                        echo "<span style='color:$cor;'>R$ {$row['amount']}</span><br>";
-                        echo "<small>{$row['categoria']} | {$row['date']}</small>";
-                        echo "</div>";
+                       $cor = $row['amount'] < 0 ? "red" : "green";
+                       echo "<div style='border-bottom:1px solid #ccc; padding:10px;'>";
+                       echo "<strong>{$row['description']}</strong><br>";
+                       echo "<span style='color:$cor;'>R$ {$row['amount']}</span><br>";
+                       echo "<small>{$row['categoria_editada']} | {$row['date']}</small>";
+                       echo "</div>";
                     }
 
+                    
                     $stmt->close();
-
                     break;           
                 }
               ?>                

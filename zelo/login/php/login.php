@@ -29,7 +29,7 @@ if (empty($nome) || empty($senha)) {
 //busca usuario no banco de dados
 $stmt = $pdo->prepare('SELECT id, nome, senha, nivel FROM cadastro WHERE nome = ?');
 $stmt->execute([$nome]);
-$usuario = $stmt->fetch();
+$usuario = $stmt->fetch(); 
 
 //verifica se usuario existe e senha é correta
 if (!$usuario || !password_verify($senha, $usuario['senha'])) {
@@ -58,7 +58,7 @@ if ($account_id) {
     $transactionsScript = $projectRoot . DIRECTORY_SEPARATOR . 'transactions.py';
 
     $pythonBin = 'python';
-    $pythonCheck = trim((string)shell_exec('where python 2>NUL'));
+    $pythonCheck = trim((string)shell_exec('where python 2>NUL'));//
     if ($pythonCheck === '') {
         $pyCheck = trim((string)shell_exec('where py 2>NUL'));
         if ($pyCheck !== '') {
@@ -75,7 +75,7 @@ if ($account_id) {
     );
 
     //executa saldo.py
-    $saldoSaida = trim((string)shell_exec($saldoCmd));
+    $saldoSaida = trim((string)shell_exec($saldoCmd)); 
     if ($saldoSaida !== '' && is_numeric($saldoSaida)) {
         $stmtSaldo = $pdo->prepare('UPDATE cadastro SET saldo = ? WHERE id = ?');//salva retorno no db
         $stmtSaldo->execute([(float)$saldoSaida, $user_id]);

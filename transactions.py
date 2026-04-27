@@ -44,12 +44,7 @@ def main():
         print("Uso: python transactions.py <user_id> <account_id>")
         return
 
-    try:
-        user_id = int(sys.argv[1])
-    except ValueError:
-        print("Erro: user_id invalido")
-        return
-
+    user_id = sys.argv[1]
     account_id = sys.argv[2]
 
     api_key = get_api_key()

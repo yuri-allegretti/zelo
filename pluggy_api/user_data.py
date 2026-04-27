@@ -1,7 +1,7 @@
 import os
 import requests
 from dotenv import load_dotenv
-from pluggy_api.api_key import get_api_key
+from zelo.php.addbanco.api_key import get_api_key
 
 load_dotenv()
 
@@ -15,14 +15,14 @@ def get_user_accounts(api_key, item_id):
         "accept": "application/json",
         "X-API-KEY": api_key
     }
-    # Adicionando o itemId como parâmetro de busca
+    #itemid como parametro de busca
     params = {
         "itemId": item_id
     }
     response = requests.get(url, headers=headers, params=params)
-    
+
     if response.status_code == 200:
-        return response.json() ## Retorna a lista de contas [1, 3]
+        return response.json() ##retorna a lista de contas
     else:
         print(f"Erro ao obter contas: {response.status_code}")
         print("Detalhes:", response.text)

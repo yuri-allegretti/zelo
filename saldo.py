@@ -1,7 +1,7 @@
 import sys
 import mysql.connector
 from pluggy_api.user_data import get_user_accounts
-from pluggy_api.api_key import get_api_key
+from zelo.php.addbanco.api_key import get_api_key
 
 def get_item_id_from_db(user_id):
     """Busca o item_id do usuário no banco de dados"""
@@ -30,10 +30,10 @@ def main():
         print("Erro: Forneça o user_id como argumento")
         print("Uso: python saldo.py <user_id>")
         return
-    
+
     user_id = sys.argv[1]
     
-    # Busca o item_id do usuário no banco de dados
+    #buscar item_id do usuario no db
     item_id = get_item_id_from_db(user_id)
     
     if not item_id:
@@ -44,10 +44,10 @@ def main():
     contas = get_user_accounts(api_key, item_id)
 
     if not contas or "results" not in contas or not contas["results"]:
-        print("0")
+        print("Erro ao buscar contas do usuário")
         return
 
-    # pega primeira conta
+    #pega primeira conta
     conta = contas["results"][0]
 
     saldo = conta.get("balance", 0)

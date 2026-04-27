@@ -1,6 +1,3 @@
-<?php
-session_start();
-?>
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -29,11 +26,11 @@ session_start();
 </div>
 
 <script>
-const USER_ID = <?php echo $_SESSION['user_id']; ?>;
+const USER_ID = <?php echo $_SESSION['user_id']; ?>; //pega userid
 
 function fecharPluggy(connect) {
     if (connect && typeof connect.close === 'function') {
-        connect.close();
+        connect.close();//
         return;
     }
 
@@ -57,7 +54,7 @@ async function abrirPluggy() {
         onSuccess: async (itemData) => {
             const itemId = itemData.item.id;
 
-            try {
+            try { 
                 await fetch("http://localhost:5000/salvar_item", {
                     method: "POST",
                     headers: {"Content-Type": "application/json"},

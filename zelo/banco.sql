@@ -1,5 +1,4 @@
 CREATE DATABASE IF NOT EXISTS zelo;
-
 USE zelo;
 
 CREATE TABLE cadastro (
@@ -17,27 +16,28 @@ CREATE TABLE cadastro (
 );
 
 CREATE TABLE banco (
-  Numero    INT(12)                             NOT NULL,
-  Agencia   INT(5)                              NOT NULL,
-  Banco     VARCHAR(255)                        NOT NULL,
-  Nome      VARCHAR(255)                        NOT NULL,
-  Cpf       VARCHAR(11)                         NOT NULL,
+  Numero  INT(12)      NOT NULL,
+  Agencia INT(5)       NOT NULL,
+  Banco   VARCHAR(255) NOT NULL,
+  Nome    VARCHAR(255) NOT NULL,
+  Cpf     VARCHAR(11)  NOT NULL,
   PRIMARY KEY (Numero)
 );
 
 CREATE TABLE transactions (
-    id VARCHAR(255) PRIMARY KEY,
-    user_id INT NOT NULL,
-    account_id VARCHAR(255),
-    amount FLOAT,
-    description TEXT,
-    date DATETIME,
-    categoria VARCHAR(50),
-    categoria_editada VARCHAR(50),
-
-    FOREIGN KEY (user_id) REFERENCES cadastro(id)
+  id               VARCHAR(255) NOT NULL,
+  account_id       VARCHAR(255) DEFAULT NULL,
+  amount           FLOAT        DEFAULT NULL,
+  description      TEXT         DEFAULT NULL,
+  date             DATETIME     DEFAULT NULL,
+  categoria        VARCHAR(50)  DEFAULT NULL,
+  categoria_editada VARCHAR(50) DEFAULT NULL,
+  PRIMARY KEY (id),
+  FOREIGN KEY (user_id) REFERENCES cadastro(id)
 );
 
+=======
+>>>>>>> 8124f45ceafcae9fc4b919903f4aa5fc06727883
 CREATE TABLE tickets (
   id              INT(11)                                    NOT NULL AUTO_INCREMENT,
   user_id         INT(11)                                    NOT NULL,

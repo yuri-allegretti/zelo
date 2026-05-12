@@ -17,23 +17,23 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 $dados = json_decode(file_get_contents('php://input'), true);//recebe dados de login do front
 
 //trata os dados de login
-$nome  = isset($dados['nome'])  ? trim($dados['nome'])  : '';
-$senha = isset($dados['senha']) ? $dados['senha']       : '';
+$email  = isset($dados['email'])  ? trim($dados['email'])  : '';
+$senha = isset($dados['senha'])   ? $dados['senha']        : '';
 
 //valida se os campos estão preenchidos
-if (empty($nome) || empty($senha)) {
+if (empty($email) || empty($senha)) {
     echo json_encode(['sucesso' => false, 'mensagem' => 'Preencha todos os campos.']);
     exit;
 }
 
 //busca usuario no banco de dados
-$stmt = $pdo->prepare('SELECT id, nome, senha, nivel FROM cadastro WHERE nome = ?');
-$stmt->execute([$nome]);
+$stmt = $pdo->prepare('SELECT id, nome, email, senha, nivel FROM cadastro WHERE email = ?');
+$stmt->execute([$email]);
 $usuario = $stmt->fetch(); 
 
 //verifica se usuario existe e senha é correta
 if (!$usuario || !password_verify($senha, $usuario['senha'])) {
-    echo json_encode(['sucesso' => false, 'mensagem' => 'Nome ou senha incorretos.']);
+    echo json_encode(['sucesso' => false, 'mensagem' => 'Email ou senha incorretos.']);
     exit;
 }
 
@@ -41,6 +41,7 @@ if (!$usuario || !password_verify($senha, $usuario['senha'])) {
 session_start();
 $_SESSION['user_id'] = $usuario['id'];
 $_SESSION['user_nome'] = $usuario['nome'];
+$_SESSION['user_email'] = $usuario['email'];
 
 //pega account_id
 $stmt = $pdo->prepare('SELECT account_id FROM cadastro WHERE id = ?');
@@ -102,5 +103,5 @@ if ($account_id) {
 echo json_encode([
     'sucesso'  => true,
     'mensagem' => 'Login realizado com sucesso!',
-    'usuario'  => ['id' => $usuario['id'], 'nome' => $usuario['nome'], 'nivel' => $usuario['nivel']]
+    'usuario'  => ['id' => $usuario['id'],'email' => $usuario['email'], 'nome' => $usuario['nome'], 'nivel' => $usuario['nivel']]
 ]);

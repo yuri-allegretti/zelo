@@ -7,10 +7,10 @@ function mostrarMensagem(texto, tipo) {
 }
 
 btn.addEventListener('click', async () => {
-    const nome  = document.getElementById('nome').value.trim();
+    const email = document.getElementById('email').value;
     const senha = document.getElementById('senha').value;
 
-    if (!nome || !senha) {
+    if (!email || !senha) {
         mostrarMensagem('Preencha todos os campos.', 'erro');
         return;
     }
@@ -23,7 +23,7 @@ btn.addEventListener('click', async () => {
             method:  'POST',
             headers: { 'Content-Type': 'application/json' },
             credentials: 'include',
-            body:    JSON.stringify({ nome, senha })
+            body:    JSON.stringify({email, senha})
         });
 
         const dados = await response.json();

@@ -6,21 +6,15 @@
     <title>Zelo - Conectar Banco</title>
     <link rel="stylesheet" href="../../login/css/style.css?v=2.0">
     <script src="https://cdn.pluggy.ai/pluggy-connect.js"></script>
-    <style>
-        .tela-login { text-align: center; }
-        .botoes-container { display: flex; flex-direction: column; gap: 10px; margin-top: 20px; }
-        .btn-voltar { background-color: #555; box-shadow: 0 4px 15px rgba(85, 85, 85, 0.3); }
-        .btn-voltar:hover { background-color: #666; box-shadow: 0 6px 20px rgba(85, 85, 85, 0.5); }
-    </style>
 </head>
 <body>
 
-<div class="tela-login">
-    <h1 class="login-titulo">Conectar Banco</h1>
+<div class="page-container">
+    <h1 class="titulo-pagina">Conectar Banco</h1>
     <p>Conecte sua conta bancária de forma segura para utilizar os recursos.</p>
     
     <div class="botoes-container">
-        <button onclick="abrirPluggy()">Conectar banco</button>
+        <button class="btn-1" onclick="abrirPluggy()">Conectar banco</button>
         <button class="btn-voltar" onclick="window.history.back()">Voltar</button>
     </div>
 </div>

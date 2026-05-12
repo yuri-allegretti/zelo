@@ -15,12 +15,13 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 $dados = json_decode(file_get_contents('php://input'), true);
 
 $nome            = isset($dados['nome'])            ? trim($dados['nome'])            : '';
+$sobrenome       = isset($dados['sobrenome'])       ? trim($dados['sobrenome'])       : '';
 $email           = isset($dados['email'])           ? trim($dados['email'])           : '';
 $senha           = isset($dados['senha'])           ? $dados['senha']                 : '';
 $data_nasc       = isset($dados['data_nasc'])       ? trim($dados['data_nasc'])       : '';
 
 // Validações
-if (empty($nome) || empty($email) || empty($senha) || empty($data_nasc)) {
+if (empty($nome) || empty($sobrenome) || empty($email) || empty($senha) || empty($data_nasc)) {
     echo json_encode(['sucesso' => false, 'mensagem' => 'Preencha todos os campos.']);
     exit;
 }
@@ -56,7 +57,7 @@ if ($stmt->fetch()) {
 
 // nivel user
 $hash = password_hash($senha, PASSWORD_BCRYPT);
-$stmt = $pdo->prepare('INSERT INTO cadastro (nome, email, senha, data_nasc) VALUES (?, ?, ?, ?)');
-$stmt->execute([$nome, $email, $hash, $data_nasc]);
+$stmt = $pdo->prepare('INSERT INTO cadastro (nome, sobrenome, email, senha, data_nasc) VALUES (?, ?, ?, ?, ?)');
+$stmt->execute([$nome, $sobrenome, $email, $hash, $data_nasc]);
 
 echo json_encode(['sucesso' => true, 'mensagem' => 'Conta criada com sucesso!']);

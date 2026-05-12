@@ -1,0 +1,379 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
+
+:root {
+    /* BASE */
+    --bg: #101010;
+    --surface: #000000;
+    --text-primary: #fcfcfc;
+    --text-secondary: #d7d6d6;
+    --border: #292929;
+    --navbar-color: rgba(7, 7, 7, 0.76);
+
+    /* FEEDBACK */
+    --success: #6EE7B7;
+    --focus: #A5D8FF;
+    --danger: #FF6B6B;
+
+    /* INTERAÇÕES */
+    --transition: all 300ms ease-in-out;
+
+    /* RADIUS */
+    --radius-lg: 28px;
+    --radius-md: 20px;
+
+    /* ESPAÇAMENTO */
+    --section-spacing: 120px;
+
+    /* SIDEBAR */
+    --sidebar-width: 150px;
+
+    /* NAVBAR */
+    --navbar-height: 90px;
+
+    /* HOVERS */
+    --hover-bg: rgb(103, 103, 103);
+}
+
+/* RESET */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+::selection {
+    background: var(--focus);
+    color: var(--text-primary);
+}
+
+/* BODY */
+body {
+    margin-top: var(--navbar-height);
+    width: 100%;
+    min-height: calc(100vh - var(--navbar-height));
+    font-family: 'Inter', sans-serif;
+    background: var(--bg);
+    color: var(--text-primary);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+}
+
+/* TIPOGRAFIA */
+h1 {
+    font-size: 3rem;
+    font-weight: 600;
+    letter-spacing: -0.03em;
+}
+
+h2 {
+    font-size: 1.8rem;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+}
+
+h3 {
+    font-size: 1.2rem;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+}
+
+p {
+    color: var(--text-secondary);
+    margin-bottom: 24px;
+    font-size: 1.05rem;
+}
+
+/* LAYOUT */
+.page-container {
+    height: calc(100% - var(--navbar-height));
+    width: calc(100% - var(--sidebar-width));
+    max-width: 1100px;
+    margin: 0;
+    padding: 40px 20px;
+    will-change: opacity, transform;
+    animation: fadeIn 300ms ease forwards;
+}
+
+.page-container > * + * {
+    margin-top: 32px;
+}
+
+.app-layout {
+    display: flex;
+    min-height: calc(100vh - var(--navbar-height));
+}
+
+.main-area {
+    margin-left: var(--sidebar-width);
+    width: calc(100% - var(--sidebar-width));
+    display: flex;
+    flex-direction: column;
+    overflow-x: auto;
+}
+
+.main-content {
+    display: flex;
+    flex-direction: column;
+    will-change: opacity, transform;
+    animation: fadeIn 300ms ease forwards;
+}
+
+.main-content > * + * {
+    margin-top: 32px;
+}
+
+.saudacao{
+    position:absolute;
+    left:170px;
+    top: 100px;
+}
+
+.container-saldo {
+    flex-direction: column;
+    gap: 30px;
+    margin-top: 120px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* NAVBAR */
+.navbar {
+    position: fixed;
+    top: 0;
+    left: var(--sidebar-width);
+    width: calc(100% - var(--sidebar-width));
+    height: var(--navbar-height);
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding: 0 40px;
+    z-index: 1000;
+    background: var(--navbar-color);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+}
+
+.navbar a {
+    color: var(--text-primary);
+    text-decoration: none;
+}
+
+.navbar .container {
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+/* SIDEBAR */
+.sidebar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: var(--sidebar-width);
+    height: 100vh;
+    background: var(--surface);
+    border-right: 1px solid var(--border);
+    padding-top: 20px;
+}
+
+.sidebar ul {
+    list-style: none;
+    padding: 20px;
+}
+
+.sidebar li {
+    margin-bottom: 8px;
+}
+
+.sidebar a {
+    display: block;
+    width: 100%;
+    padding: 10px 14px;
+    border-radius: 12px;
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.sidebar a.active {
+    background: #F5F5F5;
+    color: var(--text-primary);
+    font-weight: 600;
+}
+
+.sidebar a:hover {
+    background: #ff0000;
+    color: var(--text-primary);
+}
+
+/* LOGO */
+.logo-link {
+    display: block;
+    margin: 10px 0 20px 30px;
+}
+
+.logo {
+    max-width: 50px;
+}
+
+/* CARD */
+.welcome-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 40px;
+    max-width: 500px;
+}
+
+/* BOTÕES */
+button,
+.connect-bank-link {
+    font-size: 1rem;
+    border-radius: 999px;
+    padding: 16px 26px;
+    font-weight: 500;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.connect-bank-link, .btn-1 {
+    display: inline-block;
+    color: var(--bg);
+    background: var(--text-primary);
+    border: 1px solid var(--text-primary);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+}
+
+.btn-1:hover {
+    color: var(--surface);
+    background: var(--text-primary);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+    opacity: 0.95;
+    transform: translateY(-2px);
+}
+
+.btn-1:active, .connect-bank-link:active, .btn-voltar:active {
+    transform: translateY(2px);
+}
+
+.connect-bank-link:hover {
+    color: var(--surface);
+    background: var(--text-primary);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+    opacity: 0.95;
+    transform: translateY(-2px);
+}
+
+/* BOTÕES SECUNDÁRIOS */
+.btn-voltar {
+    color: var(--text-primary);
+    background: transparent;
+    border: 1px solid var(--text-primary);
+    color: var(--text-primary);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+}
+
+.btn-voltar:hover {
+    color: var(--surface);
+    background: var(--text-primary);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+    opacity: 0.95;
+    transform: translateY(-2px);
+}
+
+.btn-danger {
+    background: #FFE5E5;
+    color: #D64545;
+}
+
+/* INPUTS */
+.tela-login input {
+    width: 100%;
+    padding: 14px;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--border);
+    background: var(--surface);
+    outline: none;
+    transition: var(--transition);
+}
+
+.tela-login input::placeholder {
+    color: #A0A0A0;
+}
+
+.tela-login input:focus {
+    border-color: var(--focus);
+    box-shadow: 0 0 0 3px rgba(165, 216, 255, 0.3);
+}
+
+/* TRANSAÇÕES */
+.transacao {
+    padding: 14px 0;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.positivo {
+    color: var(--success);
+}
+
+.negativo {
+    color: var(--danger);
+}
+
+/* GLASS */
+.glass {
+    background: rgba(255,255,255,0.8);
+    backdrop-filter: blur(10px);
+    border-radius: var(--radius-md);
+    border: 1px solid var(--border);
+}
+
+/* SALDO COM TOGGLE */
+.saldo-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.btn-toggle-saldo {
+    background: none;
+    border: none;
+    border-radius: 8px;
+    padding: 8px 10px;
+    cursor: pointer;
+    color: var(--text-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+}
+
+.btn-toggle-saldo:active {
+    transform: scale(0.95);
+}
+
+.saldo.blur-saldo {
+    filter: blur(9px);
+    user-select: none;
+}
+
+/* RESPONSIVO */
+@media (max-width: 768px) {
+    .main-area {
+        width: 100%;
+    }
+
+    .navbar {
+        left: 0;
+        width: 100%;
+    }
+
+    .page-container {
+        padding: 20px;
+    }
+}

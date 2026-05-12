@@ -57,3 +57,10 @@ Traceback (most recent call last):
 mysql.connector.errors.ProgrammingError: 1045 (28000): Access denied for user 'root'@'localhost' (using password: NO)
 493 novas transacoes inseridas em 1
 493 novas transacoes inseridas em 2
+3 novas transacoes inseridas em 18
+0 novas transacoes inseridas em 18
+2 novas transacoes inseridas em 18
+500 novas transacoes inseridas em 27
+3 novas transacoes inseridas em 27
+0 novas transacoes inseridas em 27
+0 novas transacoes inseridas em 27

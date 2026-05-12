@@ -6,40 +6,24 @@ session_start();
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Cadastro</title>
-
+    <title>Zelo</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-
-    <style>
-      body {
-        background-color: #f8f9fa; 
-      }
-      .navbar {
-        border-bottom: 1px solid #dee2e6;
-        box-shadow: 0 4px 6px -1px rgba(0,0,0,0.07);
-      }
-      .navbar-brand {
-        font-weight: 700;
-        color: #0d6efd !important;
-      }
-    </style>
+    <link rel="stylesheet" href="style1.css">
   </head>
   <body>
 
-    <nav class="navbar navbar-expand-lg bg-white">
+    <nav class="navbar navbar-expand-lg">
       <div class="container">
-        <a class="navbar-brand" href="index.php">
-          
-          Zelo
-        </a>
+        <!--a class="zelo_text" href="index.php">Z</a-->
         
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
           <span class="navbar-toggler-icon"></span>
         </button>
 
         <div class="collapse navbar-collapse" id="navbarNav">
-          <ul class="navbar-nav ms-auto"> <li class="nav-item">
-              <a class="nav-link active" href="index.php">Home</a>
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="index.php">Home</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="?page=listar">Meu perfil</a>
@@ -49,9 +33,17 @@ session_start();
         </div>
       </div>
     </nav>
-    <div class="container">
-        <div class= "row">
-            <div class="col mt-5">
+    <nav class="sidebar">
+      <a href="index.php" class="logo-link">
+        <img class="logo" src="../assets/logo2.png" alt="Logo Zelo">
+      </a>
+      <ul class="side-links">
+        <li><a href="index.php">Home</a></li>
+        <li><a href="?page=suporte">Ajuda</a></li>
+      </ul>
+    </nav>
+    <div class="main-area">
+      <div class="main-content">
               <?php
                 //verificar se usuario esta logado
                 if (!isset($_SESSION['user_id']) && @$_REQUEST['page'] !== 'login') {
@@ -84,13 +76,14 @@ session_start();
 
 
                     // PEGAR DADOS DO USUARIO
-                    $stmt = $conn->prepare("SELECT item_id, saldo FROM cadastro WHERE id = ?");
+                    $stmt = $conn->prepare("SELECT nome, item_id, saldo FROM cadastro WHERE id = ?");
                     $stmt->bind_param("i", $user_id);
                     $stmt->execute();
                     $result_user = $stmt->get_result();
                     $user = $result_user ? $result_user->fetch_assoc() : null;
                     $stmt->close();
-
+                    
+                    $nomeUsuario = $user['nome'] ?? 'Usuário'; //pega nome do usuario
                     $item_id = $user['item_id'] ?? null;
                     $saldoBanco = $user['saldo'] ?? null; //salva saldo
 
@@ -99,10 +92,28 @@ session_start();
 
                     if ($saldoBanco !== null && $saldoBanco !== '') {
                       $saldo = number_format((float) $saldoBanco, 2, ',', '.');
-                      echo "<h2>Saldo: R$ $saldo</h2>";//exibe saldo
+                      echo "
+                      <h3 class='saudacao'>Bem-vindo, $nomeUsuario</h3>
+                      <div class='container-saldo'>
+                        <div class='saldo-wrapper'>
+                          <h1 class='saldo blur-saldo' id='saldoValue'>R$$saldo</h1>
+                          <button class='btn-toggle-saldo' id='toggleSaldoBtn' onclick='toggleSaldoVisibility()' title='Mostrar saldo'>
+                            <svg width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2'>
+                              <path d='M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24'></path>
+                              <line x1='1' y1='1' x2='23' y2='23'></line>
+                            </svg>
+                          </button>
+                        </div>
+                      </div>";
                     }
                     else {
-                      echo "<h2>Conecte seu banco para ter acesso aos recursos da Zelo</h2>";//mensagem caso saldo nao esteja disponivel
+                      echo "
+                        <div class='page-container'>
+                          <h1 class='titulo-pagina'>Conecte seu banco</h1>
+                          <p>Tenha acesso completo aos recursos da Zelo</p>
+                          <a href='?page=addbanco' class='connect-bank-link'>+ Adicionar banco</a>
+                        </div>
+                        ";//mensagem caso saldo nao esteja disponivel
                     }
 
                     //EXTRATO
@@ -125,30 +136,63 @@ session_start();
                     }
 
                     $result_extrato = $stmt->get_result();
-                    
+                    echo "<div class='page-container'>";
                     if ($saldoBanco !== null && $saldoBanco !== '') {
-                      echo "<h3 class='mt-4'>Extrato</h3>";//exibe titulo do extrato
-                      //estiliza e exibe transacoes  
-                      while ($row = $result_extrato->fetch_assoc()) {
-                        $cor = $row['amount'] < 0 ? "red" : "green";
-                        echo "<div style='border-bottom:1px solid #ccc; padding:10px;'>";
-                        echo "<strong>{$row['description']}</strong><br>";
-                        echo "<span style='color:$cor;'>R$ {$row['amount']}</span><br>";
-                        echo "<small>{$row['categoria_editada']} | {$row['date']}</small>";
-                        echo "</div>";
+                      
+                        
+                        echo "<h3 class='mt-4'>Extrato</h3>";//exibe titulo do extrato
+                        //estiliza e exibe transacoes  
+                        while ($row = $result_extrato->fetch_assoc()) {
+                          $cor = $row['amount'] < 0 ? "red" : "green";
+                          echo "<div style='border-bottom:1px solid #ccc; padding:10px;'>";
+                          echo "<strong>{$row['description']}</strong><br>";
+                          echo "<span style='color:$cor;'>R$ {$row['amount']}</span><br>";
+                          echo "<small>{$row['categoria_editada']} | {$row['date']}</small>";
+                          echo "</div>";
+                      
                       }
                     }
                     
                     $stmt->close();
-                    break;           
+                    break; 
+                    echo "</div>";          
                 }
               ?>                
-            </div>
         </div>  
     </div>
 
 
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function toggleSaldoVisibility() {
+            const saldoElement = document.getElementById('saldoValue');
+            const toggleBtn = document.getElementById('toggleSaldoBtn');
+            
+            if (saldoElement) {
+                saldoElement.classList.toggle('blur-saldo');
+                
+                // Mudar o ícone do botão
+                const isBlurred = saldoElement.classList.contains('blur-saldo');
+                if (isBlurred) {
+                    toggleBtn.title = 'Ocultar saldo';
+                    toggleBtn.innerHTML = `
+                        <svg width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2'>
+                            <path d='M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24'></path>
+                            <line x1='1' y1='1' x2='23' y2='23'></line>
+                        </svg>
+                    `;
+                } else {
+                    toggleBtn.title = 'Mostrar saldo';
+                    toggleBtn.innerHTML = `
+                        <svg width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2'>
+                            <path d='M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z'></path>
+                            <circle cx='12' cy='12' r='3'></circle>
+                        </svg>
+                    `;
+                }
+            }
+        }
+    </script>
   </body>
 </html>

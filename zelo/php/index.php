@@ -66,7 +66,7 @@ session_start();
                     include("salvar_user.php");
                     break;
                   case"editar":
-                    include("editar_user.php");
+                    include("editar_user.html");
                     break;
                   case "addbanco":
                     include("addbanco/addbanco.php");

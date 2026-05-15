@@ -1,11 +1,12 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap');
 :root {
     /* BASE */
-    --bg: #FAFAFA;
-    --surface: #FFFFFF;
-    --text-primary: #0A0A0A;
-    --text-secondary: #6B6B6B;
-    --border: #E5E5E5;
+    --bg: #101010;
+    --surface: #000000;
+    --text-primary: #fcfcfc;
+    --text-secondary: #d7d6d6;
+    --input:rgb(29, 29, 29);
+    --border: #292929;
 
     /* FEEDBACK */
     --success: #6EE7B7;
@@ -110,7 +111,7 @@ body {
     outline: none;
     font-size: 15px;
     width: 100%;
-    background-color: var(--ivory);
+    background-color: var(--input);
     transition: all 0.3s ease;
     margin-bottom: 15px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
@@ -118,7 +119,7 @@ body {
 
 .page-container input:focus {
     box-shadow: 0 4px 8px var(--main-color);
-    background-color: var(--ivory);
+    background-color: var(--input);
 }
 
 /* Ajustes visuais para o campo de data */
@@ -162,23 +163,25 @@ body {
 }
 
 button {
-    background-color: var(--main-color);
+    font-size: 1rem;
+    padding: 16px 26px;
+    font-weight: 500;
+    text-decoration: none;
+    border: solid 1px var(--border);
+    cursor: pointer;
+    transition: var(--transition);
+    background-color: var(--text-primary);
     border: none;
     padding: 14px;
     width: 100%;
     border-radius: 10px;
-    color: rgb(255, 255, 255);
-    font-size: 15px;
+    color: var(--border);
     font-weight: bold;
-    cursor: pointer;
-    box-shadow: 0 4px 15px rgba(131, 30, 255, 0.3);
-    transition: all 0.2s ease;
 
 }
 
 button:hover {
-    background-color: var(--main-color);
-    box-shadow: 0 6px 20px var(--main-color);
+    box-shadow: 0 4px 15px rgba(255, 255, 255, 0.155);
     transform: translateY(-1px);
 }
 
@@ -188,6 +191,10 @@ button:active {
 
 
 .mensagem {
+    position: absolute;
+    top: 15vh;
+    left: 50vw;
+    transform: translate(-50%, -50%);
     padding: 10px 14px;
     border-radius: 8px;
     font-size: 0.88rem;

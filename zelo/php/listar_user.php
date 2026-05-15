@@ -13,7 +13,7 @@
                         <div class='rounded-circle bg-primary text-white d-flex align-items-center justify-content-center me-3' style='width:50px;height:50px;font-size:1.4rem;'>
                             ".strtoupper(substr($row->nome, 0, 1))."
                         </div>
-                        <h4 class='mb-0'>".$row->nome."</h4>
+                        <h4 class='mb-0'>".$row->nome." ".$row->sobrenome."</h4>
                     </div>
                     <hr>
                     <p class='mb-2'><strong>ID:</strong> ".$row->id."</p>
@@ -24,6 +24,7 @@
                         <a type='link' href='?page=addbanco' class='connect-bank-link'>+ Adicionar banco</a>
                         <button onclick=\"if(confirm('Deseja sair da conta?')){location.href='?page=salvar&acao=logout';}else{false}\"class='btn btn-danger'>Sair</button>
                     </div>
+                    <button onclick=\"if(confirm('Deseja excluir a conta?')){location.href='?page=salvar&acao=excluir&id=".$row->id."';}else{false}\" class='btn-excluir'>Excluir conta</button>
             </div>";
         }
     } else {

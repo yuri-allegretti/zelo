@@ -9,7 +9,7 @@ CREATE TABLE cadastro (
   email      VARCHAR(255)                       NOT NULL,
   senha      VARCHAR(255)                       NOT NULL,
   data_nasc  DATE                               NOT NULL,
-  nivel      ENUM('free', 'premium', 'suporte') NOT NULL DEFAULT 'free',
+  nivel      ENUM('free', 'premium', 'suporte', 'admin') NOT NULL DEFAULT 'free',
   item_id    VARCHAR(255),
   account_id VARCHAR(255),
   saldo      DECIMAL(15,2)                      DEFAULT NULL,

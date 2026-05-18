@@ -71,6 +71,25 @@ session_start();
                   case "addbanco":
                     include("addbanco/addbanco.php");
                     break;
+                  case "suporte":
+                  case "suporte":
+                    include("suporte.php");
+                    break;
+                  case "solicitar_suporte":
+                    include("solicitar_suporte.php");
+                    break;
+                  case "salvar_suporte":
+                    include("salvar_suporte.php");
+                    break;
+                    case "admin_suporte":
+                    include("admin_suporte.php");
+                    break;
+                     case "responder_suporte":
+                    include("responder_suporte.php");
+                    break;
+                     case "salvar_resposta_suporte":
+                    include("salvar_resposta_suporte.php");
+                    break;
                   default://pagina inicial
                     $user_id = (int) $_SESSION['user_id']; //pegar id do usuario logado
 

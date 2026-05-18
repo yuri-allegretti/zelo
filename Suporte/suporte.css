@@ -1,0 +1,101 @@
+@import url('https://fonts.googleapis.com/css2?family=Google+Sans:ital,opsz,wght@0,17..18,400..700;1,17..18,400..700&display=swap');
+
+:root {
+    --cor-principal: #000000;
+    --cor-fonte: #ffffff;
+    --cor-botao: #0d6efd;
+    --cor-botao-hover: #0b5ed7;
+    
+}
+
+* {
+    font-family: "Google Sans", sans-serif;
+    padding: 0;
+    margin: 0;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 30px;
+    background-color: var(--cor-principal);
+    color: var(--cor-fonte);
+}
+
+header ul {
+    display: flex;
+    gap: 20px;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+header button{
+    background-color: red;
+    color: var(--cor-fonte);
+    width: 100px;
+    height: 40px;
+    border-radius: 10px;
+    border: var(--cor-principal) 1px solid;
+    box-shadow: 0 4px 12px rgba(255, 255, 255, 0.30);
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+header button:hover{
+    background-color: rgb(166, 0, 0);
+    transform: translateY(-5px);
+}
+
+.prin-chats h2, h3 {
+    text-align: center;
+    padding: 20px;
+}
+
+.prin-chats a{
+    text-decoration: none;
+    color: inherit;
+}
+
+.cards {
+    display: flex;
+    gap: 20px;             
+    justify-content: center;
+    flex-wrap: wrap;       
+    padding: 20px;
+}
+
+
+.card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: 1px solid var(--cor-principal);
+    width: 220px;
+    padding: 15px;
+    border-radius: 10px;
+    transition: all 0.3s ease;
+}
+
+.card:hover{
+    transform: scale(105%);
+}
+
+.card button {
+    background-color: var(--cor-botao);
+    color: var(--cor-fonte);
+    width: 120px;
+    height: 40px;
+    display: block;
+    margin: 20px auto 0 auto;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.card button:hover {
+    background-color: var(--cor-botao-hover);
+    transform: translateY(-5px);
+}

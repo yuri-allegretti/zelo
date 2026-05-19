@@ -33,7 +33,11 @@ btn.addEventListener('click', async () => {
             // Salva o nome 
             localStorage.setItem('cadastro', JSON.stringify(dados.usuario));
             setTimeout(() => {
-                window.location.href = '../../php/index.php';
+                if (dados.usuario.nivel === 'suporte'){
+                    window.location.href = '../../../Suporte/suporte.html'
+                } else {
+                    window.location.href = '../../php/index.php'
+                }
             }, 1000);
         } else {
             mostrarMensagem(dados.mensagem, 'erro');

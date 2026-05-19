@@ -22,13 +22,9 @@ if ($solicitacao) {
     <?php return; }
 
     if ($solicitacao['status'] === 'aprovada') { ?>
-        <div class="page-container">
-            <div class="status-box aprovada">
-                <span class="status-icon">✅</span>
-                <h2>Você já é um agente!</h2>
-                <p>Sua solicitação foi aprovada.</p>
-            </div>
-        </div>
+        <script>
+            window.location.href = '../../Suporte/suporte.html'
+        </script>
     <?php return; }
 }
 ?>

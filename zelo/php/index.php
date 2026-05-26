@@ -14,7 +14,7 @@ session_start();
 
     <nav class="navbar navbar-expand-lg">
       <div class="container">
-        <!--a class="zelo_text" href="index.php">Z</a-->
+        
         
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
           <span class="navbar-toggler-icon"></span>
@@ -45,13 +45,13 @@ session_start();
     <div class="main-area">
       <div class="main-content">
               <?php
-                //verificar se usuario esta logado
+                
                 if (!isset($_SESSION['user_id']) && @$_REQUEST['page'] !== 'login') {
                   header('Location: ../login/html/login.html');
                   exit;
                 }
 
-                //conexao com banco de dados
+                
                 include("conexao.php");
 
 
@@ -72,7 +72,6 @@ session_start();
                     include("addbanco/addbanco.php");
                     break;
                   case "suporte":
-                  case "suporte":
                     include("suporte.php");
                     break;
                   case "solicitar_suporte":
@@ -90,11 +89,26 @@ session_start();
                      case "salvar_resposta_suporte":
                     include("salvar_resposta_suporte.php");
                     break;
-                  default://pagina inicial
-                    $user_id = (int) $_SESSION['user_id']; //pegar id do usuario logado
+                  case "abrir_ticket":
+                    include("abrir_ticket.php");
+                    break;
+                  case "salvar_ticket":
+                    include("salvar_ticket.php");
+                    break;
+                  case "chat_usuario":
+                    include("chat_usuario.php");
+                    break;
+                  case "api_chat":
+                    include("api_chat.php");
+                    break;
+                  case "fechar_ticket":
+                    include("fechar_ticket.php");
+                    break;
+                  default:
+                    $user_id = (int) $_SESSION['user_id']; 
 
 
-                    // PEGAR DADOS DO USUARIO
+                    
                     $stmt = $conn->prepare("SELECT nome, item_id, saldo FROM cadastro WHERE id = ?");
                     $stmt->bind_param("i", $user_id);
                     $stmt->execute();
@@ -102,12 +116,11 @@ session_start();
                     $user = $result_user ? $result_user->fetch_assoc() : null;
                     $stmt->close();
                     
-                    $nomeUsuario = $user['nome'] ?? 'Usuário'; //pega nome do usuario
+                    $nomeUsuario = $user['nome'] ?? 'Usuário'; 
                     $item_id = $user['item_id'] ?? null;
-                    $saldoBanco = $user['saldo'] ?? null; //salva saldo
+                    $saldoBanco = $user['saldo'] ?? null; 
 
-                    //SALDO
-                    //verificar e formatar saldo
+                   
 
                     if ($saldoBanco !== null && $saldoBanco !== '') {
                       $saldo = number_format((float) $saldoBanco, 2, ',', '.');
@@ -132,11 +145,10 @@ session_start();
                           <p>Tenha acesso completo aos recursos da Zelo</p>
                           <a href='?page=addbanco' class='connect-bank-link'>+ Adicionar banco</a>
                         </div>
-                        ";//mensagem caso saldo nao esteja disponivel
+                        ";
                     }
 
-                    //EXTRATO
-                    //pega transacoes do usuario
+                    
                     $stmt = $conn->prepare("
                       SELECT description, amount, categoria, date, user_id, categoria_editada 
                       FROM transactions 
@@ -159,8 +171,8 @@ session_start();
                     if ($saldoBanco !== null && $saldoBanco !== '') {
                       
                         
-                        echo "<h3 class='mt-4'>Extrato</h3>";//exibe titulo do extrato
-                        //estiliza e exibe transacoes  
+                        echo "<h3 class='mt-4'>Extrato</h3>";
+                         
                         while ($row = $result_extrato->fetch_assoc()) {
                           $cor = $row['amount'] < 0 ? "red" : "green";
                           echo "<div style='border-bottom:1px solid #ccc; padding:10px;'>";
@@ -191,7 +203,7 @@ session_start();
             if (saldoElement) {
                 saldoElement.classList.toggle('blur-saldo');
                 
-                // Mudar o ícone do botão
+                
                 const isBlurred = saldoElement.classList.contains('blur-saldo');
                 if (isBlurred) {
                     toggleBtn.title = 'Ocultar saldo';

@@ -5,45 +5,45 @@ header('Access-Control-Allow-Credentials: true');
 header('Access-Control-Allow-Methods: POST');
 header('Access-Control-Allow-Headers: Content-Type');
 
-require_once 'db.php'; //conecta banco de dados
+require_once 'db.php'; 
 
-//permite apenas POST
+
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     http_response_code(405);
     echo json_encode(['sucesso' => false, 'mensagem' => 'Método não permitido.']);
     exit;
 }
 
-$dados = json_decode(file_get_contents('php://input'), true);//recebe dados de login do front
+$dados = json_decode(file_get_contents('php://input'), true);
 
-//trata os dados de login
+
 $email  = isset($dados['email'])  ? trim($dados['email'])  : '';
 $senha = isset($dados['senha'])   ? $dados['senha']        : '';
 
-//valida se os campos estão preenchidos
+
 if (empty($email) || empty($senha)) {
     echo json_encode(['sucesso' => false, 'mensagem' => 'Preencha todos os campos.']);
     exit;
 }
 
-//busca usuario no banco de dados
+
 $stmt = $pdo->prepare('SELECT id, nome, email, senha, nivel FROM cadastro WHERE email = ?');
 $stmt->execute([$email]);
 $usuario = $stmt->fetch(); 
 
-//verifica se usuario existe e senha é correta
+
 if (!$usuario || !password_verify($senha, $usuario['senha'])) {
     echo json_encode(['sucesso' => false, 'mensagem' => 'Email ou senha incorretos.']);
     exit;
 }
 
-//inicia sessao e salva dados do usuario
+
 session_start();
 $_SESSION['user_id'] = $usuario['id'];
 $_SESSION['user_nome'] = $usuario['nome'];
 $_SESSION['user_email'] = $usuario['email'];
 
-//pega account_id
+
 $stmt = $pdo->prepare('SELECT account_id FROM cadastro WHERE id = ?');
 $stmt->execute([$usuario['id']]);
 $dadosConta = $stmt->fetch();
@@ -67,7 +67,7 @@ if ($account_id) {
         }
     }
 
-    //comando para executar saldo.py
+   
     $saldoCmd = sprintf(
         '%s %s %s 2>&1',
         escapeshellcmd($pythonBin),
@@ -75,14 +75,14 @@ if ($account_id) {
         escapeshellarg((string)$user_id)
     );
 
-    //executa saldo.py
+    
     $saldoSaida = trim((string)shell_exec($saldoCmd)); 
     if ($saldoSaida !== '' && is_numeric($saldoSaida)) {
         $stmtSaldo = $pdo->prepare('UPDATE cadastro SET saldo = ? WHERE id = ?');//salva retorno no db
         $stmtSaldo->execute([(float)$saldoSaida, $user_id]);
     }
 
-    //comando para executar transactions.py
+  
     $cmd = sprintf(
         '%s %s %s %s 2>&1',
         escapeshellcmd($pythonBin),
@@ -91,10 +91,9 @@ if ($account_id) {
         escapeshellarg((string)$account_id)
     );
 
-    //cria caminho de log
     $logFile = $projectRoot . DIRECTORY_SEPARATOR . 'transactions_login.log';
 
-    //executa transactions.py em segundo plano e redireciona saída para o log
+    
     $bgCmd = 'start "" /B cmd /C "' . $cmd . ' >> ' . escapeshellarg($logFile) . ' 2>&1"';
     exec($bgCmd);
 

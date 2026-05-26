@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
 
 :root {
-    /* BASE */
+
     --bg: #101010;
     --surface: #000000;
     --text-primary: #fcfcfc;
@@ -9,32 +9,29 @@
     --border: #292929;
     --navbar-color: rgba(7, 7, 7, 0.76);
 
-    /* FEEDBACK */
     --success: #6EE7B7;
     --focus: #A5D8FF;
     --danger: #FF6B6B;
 
-    /* INTERAÇÕES */
+  
     --transition: all 300ms ease-in-out;
 
-    /* RADIUS */
+   
     --radius-lg: 28px;
     --radius-md: 20px;
 
-    /* ESPAÇAMENTO */
+
     --section-spacing: 120px;
 
-    /* SIDEBAR */
+
     --sidebar-width: 150px;
 
-    /* NAVBAR */
     --navbar-height: 90px;
 
-    /* HOVERS */
     --hover-bg: rgb(103, 103, 103);
 }
 
-/* RESET */
+
 * {
     box-sizing: border-box;
     margin: 0;
@@ -46,7 +43,7 @@
     color: var(--text-primary);
 }
 
-/* BODY */
+
 body {
     margin-top: var(--navbar-height);
     width: 100%;
@@ -58,7 +55,7 @@ body {
     -webkit-font-smoothing: antialiased;
 }
 
-/* TIPOGRAFIA */
+
 h1 {
     font-size: 3rem;
     font-weight: 600;
@@ -83,7 +80,6 @@ p {
     font-size: 1.05rem;
 }
 
-/* LAYOUT */
 .page-container {
     height: calc(100% - var(--navbar-height));
     width: calc(100% - var(--sidebar-width));
@@ -137,7 +133,7 @@ p {
     justify-content: center;
 }
 
-/* NAVBAR */
+
 .navbar {
     position: fixed;
     top: 0;
@@ -168,7 +164,6 @@ p {
     margin: 0 auto;
 }
 
-/* SIDEBAR */
 .sidebar {
     position: fixed;
     left: 0;
@@ -210,7 +205,6 @@ p {
     color: var(--text-secondary);
 }
 
-/* LOGO */
 .logo-link {
     display: block;
     margin: 10px 0 20px 30px;
@@ -220,7 +214,6 @@ p {
     max-width: 50px;
 }
 
-/* CARD */
 .welcome-card {
     background: var(--surface);
     border: 1px solid var(--border);
@@ -229,7 +222,6 @@ p {
     max-width: 500px;
 }
 
-/* BOTÕES */
 button,
 .connect-bank-link {
     font-size: 1rem;
@@ -270,7 +262,7 @@ button,
     transform: translateY(-2px);
 }
 
-/* BOTÕES SECUNDÁRIOS */
+
 .btn-voltar {
     color: var(--text-primary);
     background: transparent;
@@ -343,7 +335,7 @@ button,
     display: block;
 }
 
-/* INPUTS */
+
 .tela-login input {
     width: 100%;
     padding: 14px;
@@ -363,7 +355,6 @@ button,
     box-shadow: 0 0 0 3px rgba(165, 216, 255, 0.3);
 }
 
-/* TRANSAÇÕES */
 .transacao {
     padding: 14px 0;
     border-bottom: 1px solid var(--border);
@@ -380,7 +371,7 @@ button,
     color: var(--danger);
 }
 
-/* GLASS */
+
 .glass {
     background: rgba(255,255,255,0.8);
     backdrop-filter: blur(10px);
@@ -388,7 +379,7 @@ button,
     border: 1px solid var(--border);
 }
 
-/* SALDO COM TOGGLE */
+
 .saldo-wrapper {
     display: flex;
     align-items: center;
@@ -417,7 +408,7 @@ button,
     user-select: none;
 }
 
-/* RESPONSIVO */
+
 @media (max-width: 768px) {
     .main-area {
         width: 100%;
@@ -432,3 +423,9 @@ button,
         padding: 20px;
     }
 }
+.badge-prioridade { padding:0.2rem 0.6rem; border-radius:20px; font-size:0.75rem; margin-left:0.5rem; }
+.badge-prioridade.alta   { background:#3d1a1a; color:#f08080; }
+.badge-prioridade.media  { background:#2a2510; color:#f5c518; }
+.badge-prioridade.baixa  { background:#102a14; color:#5cd679; }
+.chat-header { display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:1rem; padding-bottom:1rem; border-bottom:1px solid #2e2e3e; }
+.chat-agente-info { font-size:0.85rem; color:#888; }

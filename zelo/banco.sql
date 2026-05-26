@@ -62,3 +62,14 @@ CREATE TABLE solicitacao_suporte (
   FOREIGN KEY (admin_id)      REFERENCES cadastro(id),
   FOREIGN KEY (novo_login_id) REFERENCES cadastro(id)
 );
+
+CREATE TABLE mensagens (
+  id         INT(11)   NOT NULL AUTO_INCREMENT,
+  ticket_id  INT(11)   NOT NULL,
+  user_id    INT(11)   NOT NULL,
+  mensagem   TEXT      NOT NULL,
+  enviado_em DATETIME  NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (id),
+  FOREIGN KEY (ticket_id) REFERENCES tickets(id),
+  FOREIGN KEY (user_id)   REFERENCES cadastro(id)
+);

@@ -30,11 +30,11 @@ btn.addEventListener('click', async () => {
 
         if (dados.sucesso) {
             mostrarMensagem(dados.mensagem, 'sucesso-msg');
-            // Salva o nome 
+           
             localStorage.setItem('cadastro', JSON.stringify(dados.usuario));
             setTimeout(() => {
                 if (dados.usuario.nivel === 'suporte'){
-                    window.location.href = '../../../Suporte/suporte.html'
+                    window.location.href = '/zelo-main/Suporte/suporte.php'
                 } else {
                     window.location.href = '../../php/index.php'
                 }

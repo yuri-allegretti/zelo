@@ -16,7 +16,7 @@ $stmt->close();
             <div class="suporte-card-icon">💬</div>
             <h3>Falar com suporte</h3>
             <p>Entre em contato com um agente disponível para tirar suas dúvidas.</p>
-            <a href="#" class="btn-suporte">Abrir chat</a>
+            <a href="?page=abrir_ticket" class="btn-suporte">Abrir chat</a>
         </div>
 
         <div class="suporte-card destaque">

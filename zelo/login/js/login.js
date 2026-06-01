@@ -34,7 +34,7 @@ btn.addEventListener('click', async () => {
             localStorage.setItem('cadastro', JSON.stringify(dados.usuario));
             setTimeout(() => {
                 if (dados.usuario.nivel === 'suporte'){
-                    window.location.href = '/zelo-main/Suporte/suporte.php'
+                    window.location.href = '../../../Suporte/suporte.php'
                 } else {
                     window.location.href = '../../php/index.php'
                 }

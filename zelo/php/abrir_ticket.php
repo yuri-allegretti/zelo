@@ -34,6 +34,8 @@ if ($existente) {
                    placeholder="Ex: Saldo incorreto" required>
         </div>
 
+        <!--ap-->
+
         <div class="form-group">
             <label for="categoria">Categoria *</label>
             <select id="categoria" name="categoria" class="form-control" required>

@@ -10,7 +10,8 @@ $solicitacao = $result->fetch_assoc();
 $stmt->close();
 
 if ($solicitacao) {
-    if ($solicitacao['status'] === 'pendente') { ?>
+    if ($solicitacao['status'] === 'pendente') { 
+        ?>
         <div class="page-container">
             <div class="status-box pendente">
                 <span class="status-icon">⏳</span>
@@ -64,6 +65,8 @@ if ($solicitacao) {
             <label for="idade">Idade *</label>
             <input type="number" id="idade" name="idade" class="form-control" placeholder="Ex: 22" min="16" max="100" required>
         </div>
+
+        <!--ap-->
 
         <div class="form-group">
             <label for="motivacao">Por que você quer ser agente de suporte? *</label>

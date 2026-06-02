@@ -76,7 +76,7 @@ const USER_ID   = <?= $user_id ?>;
 let ultimoId = 0;
 
 function carregarMensagens() {
-    fetch(`/zelo/zelo/php/api_chat.php?ticket_id=${TICKET_ID}&ultimo_id=${ultimoId}`)
+    fetch(`../zelo/php/api_chat.php?ticket_id=${TICKET_ID}&ultimo_id=${ultimoId}`)
         .then(r => r.json())
         .then(data => {
             const box = document.getElementById('chatBox');
@@ -98,7 +98,7 @@ function carregarMensagens() {
 function enviarMensagem() {
     const texto = document.getElementById('inputMsg').value.trim();
     if (!texto) return;
-    fetch('/zelo/zelo/php/api_chat.php', {
+    fetch('../zelo/php/api_chat.php', {
         method: 'POST',
         headers: {'Content-Type': 'application/x-www-form-urlencoded'},
         body: `ticket_id=${TICKET_ID}&mensagem=${encodeURIComponent(texto)}`

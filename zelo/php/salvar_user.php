@@ -1,4 +1,5 @@
 <?php
+$user_id = (int) $_SESSION['user_id'];
  switch ($_REQUEST["acao" ]) {
     case 'cadastrar':
         $nome = $_POST["nome"];

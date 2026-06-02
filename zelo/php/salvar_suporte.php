@@ -1,4 +1,5 @@
 <?php
+$user_id = (int) $_SESSION['user_id'];
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     header('Location: index.php?page=suporte');
     exit;
@@ -6,11 +7,12 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 
 $user_id       = (int) $_SESSION['user_id'];
 $nome_completo = trim($_POST['nome_completo'] ?? '');
-$idade         = (int) ($_POST['idade'] ?? 0);
+$idade         = (int) ($_POST['idade'] ?? 0);//ap
 $motivacao     = trim($_POST['motivacao'] ?? '');
 $experiencia   = trim($_POST['experiencia'] ?? '') ?: null;
 
-if (!$nome_completo || !$motivacao || $idade < 16 || $idade > 100) {
+
+if (!$nome_completo || !$motivacao || $idade < 16 || $idade > 100) {//ap
     header('Location: index.php?page=solicitar_suporte&erro=Preencha+todos+os+campos+corretamente.');
     exit;
 }
@@ -27,10 +29,10 @@ if ($stmt->num_rows > 0) {
 $stmt->close();
 
 // Salvar
-$stmt = $conn->prepare("INSERT INTO solicitacao_suporte (user_id, nome_completo, idade, motivacao, experiencia) VALUES (?, ?, ?, ?, ?)");
-$stmt->bind_param("isiss", $user_id, $nome_completo, $idade, $motivacao, $experiencia);
+$stmt = $conn->prepare("INSERT INTO solicitacao_suporte (user_id, nome_completo, idade, motivacao, experiencia) VALUES (?, ?, ?, ?, ?)");//ap ?
+$stmt->bind_param("issss", $user_id, $nome_completo, $idade, $motivacao, $experiencia);//ap is
 
-if ($stmt->execute()) {
+if ($stmt->execute()) { 
     header('Location: index.php?page=solicitar_suporte&sucesso=1');
 } else {
     header('Location: index.php?page=solicitar_suporte&erro=Erro+ao+enviar.+Tente+novamente.');

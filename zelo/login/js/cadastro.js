@@ -6,8 +6,8 @@ function mostrarMensagem(texto, tipo) {
     msgBox.className   = 'mensagem ' + tipo; // 'erro' ou 'sucesso-msg'
 }
 
-function validarCampos(nome, sobrenome, email, senha, data_nasc) {
-    if (!nome || !sobrenome || !email || !senha) {
+function validarCampos(nome, sobrenome, email, senha, data_nasc) {//ap
+    if (!nome || !sobrenome || !email || !senha) {//ap
         mostrarMensagem('Preencha todos os campos.', 'erro');
         return false;
     }
@@ -28,12 +28,13 @@ function validarCampos(nome, sobrenome, email, senha, data_nasc) {
 
 btn.addEventListener('click', async () => {
     const nome            = document.getElementById('nome').value.trim();
+    //ap
     const sobrenome       = document.getElementById('sobrenome').value.trim();
     const email           = document.getElementById('email').value.trim();
     const senha           = document.getElementById('senha').value;
     const data_nasc       = document.getElementById('data_nascimento').value;
 
-    if (!validarCampos(nome, sobrenome, email, senha)) return;
+    if (!validarCampos(nome, sobrenome, email, senha, data_nasc)) return;//ap
 
     if (!data_nasc) {
         mostrarMensagem('Informe sua data de nascimento.', 'erro');
@@ -47,7 +48,7 @@ btn.addEventListener('click', async () => {
         const response = await fetch('../php/cadastro.php', {
             method:  'POST',
             headers: { 'Content-Type': 'application/json' },
-            body:    JSON.stringify({ nome, sobrenome, email, senha, data_nasc })
+            body:    JSON.stringify({ nome, sobrenome, email, senha, data_nasc })//ap
         });
 
         const dados = await response.json();

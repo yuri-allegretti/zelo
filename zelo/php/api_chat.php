@@ -8,22 +8,28 @@ $ticket_id = (int) ($_REQUEST['ticket_id'] ?? 0);
 
 if (!$user_id || !$ticket_id) { echo json_encode([]); exit; }
 
-// Verificar acesso ao ticket
-$stmt = $conn->prepare("
-    SELECT t.user_id, t.agente_id, t.status, c.nivel 
-    FROM tickets t
-    JOIN cadastro c ON c.id = ?
-    WHERE t.id = ?
-");
-$stmt->bind_param("ii", $user_id, $ticket_id);
+// Verificar acesso ao ticket — obter dados do ticket
+$stmt = $conn->prepare("SELECT user_id, agente_id, status FROM tickets WHERE id = ?");
+$stmt->bind_param("i", $ticket_id);
 $stmt->execute();
-$info = $stmt->get_result()->fetch_assoc();
+$ticket_info = $stmt->get_result()->fetch_assoc();
 $stmt->close();
 
-$tem_acesso = $info && (
-    $info['user_id']   == $user_id ||
-    $info['agente_id'] == $user_id ||
-    in_array($info['nivel'], ['suporte', 'admin'])
+if (!$ticket_info) { echo json_encode([]); exit; }
+
+// Obter nível do usuário logado
+$stmt = $conn->prepare("SELECT nivel FROM cadastro WHERE id = ?");
+$stmt->bind_param("i", $user_id);
+$stmt->execute();
+$user_row = $stmt->get_result()->fetch_assoc();
+$stmt->close();
+
+$nivel = $user_row['nivel'] ?? null;
+
+$tem_acesso = (
+    $ticket_info['user_id'] == $user_id ||
+    $ticket_info['agente_id'] == $user_id ||
+    in_array($nivel, ['suporte', 'admin'])
 );
 
 if (!$tem_acesso) { echo json_encode([]); exit; }
@@ -31,10 +37,10 @@ if (!$tem_acesso) { echo json_encode([]); exit; }
 // enviar mensagem
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $mensagem = trim($_POST['mensagem'] ?? '');
-    if (!$mensagem || $info['status'] === 'fechada') { echo json_encode([]); exit; }
+    if (!$mensagem || $ticket_info['status'] === 'fechada') { echo json_encode([]); exit; }
 
     // Atribuir agente automaticamente na primeira mensagem
-    if (!$info['agente_id'] && in_array($info['nivel'], ['suporte', 'admin'])) {
+    if (!$ticket_info['agente_id'] && in_array($nivel, ['suporte', 'admin'])) {
         $stmt = $conn->prepare("UPDATE tickets SET agente_id = ?, status = 'em_andamento' WHERE id = ?");
         $stmt->bind_param("ii", $user_id, $ticket_id);
         $stmt->execute();

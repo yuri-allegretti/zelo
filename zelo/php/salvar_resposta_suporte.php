@@ -1,4 +1,5 @@
 <?php
+$user_id = (int) $_SESSION['user_id'];
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     header('Location: index.php?page=admin_suporte');
     exit;

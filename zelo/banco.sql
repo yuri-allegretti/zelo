@@ -73,3 +73,29 @@ CREATE TABLE mensagens (
   FOREIGN KEY (ticket_id) REFERENCES tickets(id),
   FOREIGN KEY (user_id)   REFERENCES cadastro(id)
 );
+
+USE zelo;
+UPDATE TICKETS SET status = 'fechada' WHERE id = 1;
+
+USE zelo;
+DROP DATABASE zelo;
+
+USE zelo;
+UPDATE cadastro SET nivel = 'admin' WHERE id = 2;
+
+USE zelo;
+ALTER TABLE cadastro ADD COLUMN apelido VARCHAR(255) NOT NULL AFTER nome;
+
+USE zelo;
+ALTER TABLE tickets ADD COLUMN assunto VARCHAR(255) NOT NULL AFTER titulo;
+
+USE zelo;
+ALTER TABLE solicitacao_suporte ADD COLUMN telefone VARCHAR(255) NOT NULL AFTER idade;
+
+USE zelo;
+ALTER TABLE solicitacao_suporte ADD COLUMN cpf VARCHAR(255) NOT NULL AFTER idade;
+
+DROP DATABASE zelo;
+
+USE zelo;
+UPDATE cadastro SET nivel = 'admin' WHERE id = 3;

@@ -1,4 +1,5 @@
 <?php
+$user_id = (int) $_SESSION['user_id'];
 $stmt = $conn->prepare("SELECT nivel FROM cadastro WHERE id = ?");
 $stmt->bind_param("i", $_SESSION['user_id']);
 $stmt->execute();

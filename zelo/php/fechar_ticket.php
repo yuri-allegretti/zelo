@@ -24,5 +24,5 @@ $stmt->bind_param("iis", $ticket_id, $user_id, $me['nivel']);
 $stmt->execute();
 $stmt->close();
 
-header('Location: /zelo-main/Suporte/suporte.php');
+header('Location: /zelo/zelo/Suporte/suporte.php');
 exit;

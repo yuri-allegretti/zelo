@@ -17,7 +17,7 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 $dados = json_decode(file_get_contents('php://input'), true);
 
 
-$email  = isset($dados['email'])  ? trim($dados['email'])  : '';
+$email  = isset($dados['email'])  ? trim($dados['email'])  : '';//ap
 $senha = isset($dados['senha'])   ? $dados['senha']        : '';
 
 
@@ -27,12 +27,12 @@ if (empty($email) || empty($senha)) {
 }
 
 
-$stmt = $pdo->prepare('SELECT id, nome, email, senha, nivel FROM cadastro WHERE email = ?');
+$stmt = $pdo->prepare('SELECT id, nome, email, senha, nivel FROM cadastro WHERE email = ?');//ap
 $stmt->execute([$email]);
 $usuario = $stmt->fetch(); 
 
 
-if (!$usuario || !password_verify($senha, $usuario['senha'])) {
+if (!$usuario || !password_verify($senha, $usuario['senha'])) {//ap verif =
     echo json_encode(['sucesso' => false, 'mensagem' => 'Email ou senha incorretos.']);
     exit;
 }
@@ -40,7 +40,7 @@ if (!$usuario || !password_verify($senha, $usuario['senha'])) {
 
 session_start();
 $_SESSION['user_id'] = $usuario['id'];
-$_SESSION['user_nome'] = $usuario['nome'];
+$_SESSION['user_nome'] = $usuario['nome'];//ap
 $_SESSION['user_email'] = $usuario['email'];
 
 
@@ -102,5 +102,5 @@ if ($account_id) {
 echo json_encode([
     'sucesso'  => true,
     'mensagem' => 'Login realizado com sucesso!',
-    'usuario'  => ['id' => $usuario['id'],'email' => $usuario['email'], 'nome' => $usuario['nome'], 'nivel' => $usuario['nivel']]
+    'usuario'  => ['id' => $usuario['id'],'email' => $usuario['email'], 'nome' => $usuario['nome'], 'nivel' => $usuario['nivel']]//ap
 ]);
